@@ -86,8 +86,8 @@ public class Input : MonoBehaviour
     private int GetState()
     {
         int state = stateIndex;
-        bool thresholdX = input.x > 0.1f && input.x < 0.1f;
-        bool thresholdY = input.y > 0.1f && input.y < 0.1f;
+        bool thresholdX = input.x > -0.1f && input.x < 0.1f;
+        bool thresholdY = input.y > -0.1f && input.y < 0.1f;
 
         if (input.x > 0 && thresholdY) state = isRunning ? 6 : 4;
         else if (input.x < 0 && thresholdY) state = isRunning ? 5 : 3;
@@ -101,7 +101,19 @@ public class Input : MonoBehaviour
         else if (input.x < 0 && input.y > 0) state = isRunning ? 2 : 1;
         else if (input.x > 0 && input.y < 0) state = isRunning ? 2 : 1;
 
-        else if (thresholdX && thresholdY) state = 0;
+        else if (input.x == 0 && input.y == 0) state = 0;
         return state;
+    }
+
+    public int Layer
+    {
+        get
+        {
+            return anim.gameObject.layer;
+        }
+        set
+        {
+            anim.gameObject.layer = value;
+        }
     }
 }

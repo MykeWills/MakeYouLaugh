@@ -9,6 +9,7 @@ public class ScreenMangement : MonoBehaviour
     [SerializeField] private Transform players;
     [SerializeField] private GameObject[] playerPrefabs;
     [SerializeField] private List<Camera> cameras = new List<Camera>();
+    
 
     private void Start()
     {
@@ -65,6 +66,13 @@ public class ScreenMangement : MonoBehaviour
                 cameras[3].rect = new Rect(0.5f, 0f, 0.5f, 0.5f);
                 break;
         }
+
+        List<Transform> playersList = new List<Transform>(players.childCount);
+        foreach(Transform child in players)
+        {
+            playersList.Add(child);
+        }
+
     }
 
     private void CheckNewPlayers(Transform parent, bool cleanList = true)
