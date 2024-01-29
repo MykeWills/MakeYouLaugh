@@ -11,7 +11,8 @@ GameObject:
   - component: {fileID: 561992650589530630}
   - component: {fileID: 561992650589530680}
   - component: {fileID: 561992650589530631}
-  m_Layer: 0
+  - component: {fileID: 7356435654675986068}
+  m_Layer: 3
   m_Name: Main Camera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
@@ -26,7 +27,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561992650589530629}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 3.75, z: 0}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 561992650909215572}
@@ -83,6 +84,66 @@ AudioListener:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561992650589530629}
   m_Enabled: 1
+--- !u!114 &7356435654675986068
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 561992650589530629}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 948f4100a11a5c24981795d21301da5c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  volumeTrigger: {fileID: 561992650589530630}
+  volumeLayer:
+    serializedVersion: 2
+    m_Bits: 8
+  stopNaNPropagation: 1
+  finalBlitToCameraTarget: 1
+  antialiasingMode: 0
+  temporalAntialiasing:
+    jitterSpread: 0.75
+    sharpness: 0.25
+    stationaryBlending: 0.95
+    motionBlending: 0.85
+  subpixelMorphologicalAntialiasing:
+    quality: 2
+  fastApproximateAntialiasing:
+    fastMode: 0
+    keepAlpha: 0
+  fog:
+    enabled: 1
+    excludeSkybox: 1
+  debugLayer:
+    lightMeter:
+      width: 512
+      height: 256
+      showCurves: 1
+    histogram:
+      width: 512
+      height: 256
+      channel: 3
+    waveform:
+      exposure: 0.12
+      height: 256
+    vectorscope:
+      size: 256
+      exposure: 0.12
+    overlaySettings:
+      linearDepth: 0
+      motionColorIntensity: 4
+      motionGridSize: 64
+      colorBlindnessType: 0
+      colorBlindnessStrength: 1
+  m_Resources: {fileID: 11400000, guid: d82512f9c8e5d4a4d938b575d47f88d4, type: 2}
+  m_ShowToolkit: 0
+  m_ShowCustomSorter: 0
+  breakBeforeColorGrading: 0
+  m_BeforeTransparentBundles: []
+  m_BeforeStackBundles: []
+  m_AfterStackBundles: []
 --- !u!1 &561992650695793258
 GameObject:
   m_ObjectHideFlags: 0
@@ -109,7 +170,7 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561992650695793258}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
   m_LocalPosition: {x: 1.25, y: 7.75, z: -11}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
@@ -126,7 +187,7 @@ Rigidbody:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561992650695793258}
   serializedVersion: 2
-  m_Mass: 1
+  m_Mass: 100
   m_Drag: 0
   m_AngularDrag: 0
   m_UseGravity: 0
@@ -148,7 +209,7 @@ CharacterController:
   m_Height: 10
   m_Radius: 1.5
   m_SlopeLimit: 45
-  m_StepOffset: 0.3
+  m_StepOffset: 3
   m_SkinWidth: 0.08
   m_MinMoveDistance: 0.001
   m_Center: {x: 0, y: 0, z: 0}
@@ -166,13 +227,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   playerControl:
     controllerID: 1
-    gravity: 1
+    gravity: 50
     speed: 7.5
+    checkDistance: 10
     lookSensitivity: {x: 30, y: 30}
-  head: {fileID: 561992650909215572}
-  anim: {fileID: 561992650352587720}
   stateIndex: 0
   isGrounded: 1
+  objectInFront: 0
+  head: {fileID: 561992650909215572}
+  body: {fileID: 2872036010006909931}
+  anim: {fileID: 561992650352587720}
 --- !u!1 &561992650909215571
 GameObject:
   m_ObjectHideFlags: 0
@@ -197,7 +261,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 561992650909215571}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalPosition: {x: 0, y: 3.75, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 561992650589530630}
@@ -267,6 +331,10 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: -3079480245317073801, guid: 6026d4134d9ee7c4690a7daa9471a078, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 2f7ebfac8b4580140b8f8ba441da4cfe, type: 2}
     - target: {fileID: 919132149155446097, guid: 6026d4134d9ee7c4690a7daa9471a078, type: 3}
       propertyPath: m_Name
       value: Female
@@ -281,6 +349,11 @@ GameObject:
 --- !u!4 &19738621399165515 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: -8679921383154817045, guid: 6026d4134d9ee7c4690a7daa9471a078, type: 3}
+  m_PrefabInstance: {fileID: 561992650616933792}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &2872036010006909931 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 2312348675045629515, guid: 6026d4134d9ee7c4690a7daa9471a078, type: 3}
   m_PrefabInstance: {fileID: 561992650616933792}
   m_PrefabAsset: {fileID: 0}
 --- !u!95 &561992650352587720

@@ -4,36 +4,49 @@ using UnityEngine;
 using Rewired;
 public class Input : MonoBehaviour
 {
-    private enum RotationAxes { XY, X, Y };
-    private RotationAxes axis = RotationAxes.XY;
-
     [Serializable]
     public struct PlayerControl
     {
         public int controllerID;
         public float gravity;
         public float speed;
-
+        public float checkDistance;
         public Vector2 lookSensitivity;
     }
 
     public PlayerControl playerControl;
-
-    private float[] lookRotation = new float[2];
-    [SerializeField] private Transform head;
-    [SerializeField] private Animator anim;
-    private float moveSpeed;
+    [Space]
     public int stateIndex = 0;
-    private Player playerInput => ReInput.players.GetPlayer(playerControl.controllerID);
-    private bool isRunning => playerInput.GetButton("Run");
     public bool isGrounded = true;
-    Vector2 input = new Vector2();
-    private float time => Time.deltaTime;
-    private CharacterController cc => GetComponent<CharacterController>();
+    public bool objectInFront = false;
+    [Space]
+    [SerializeField] private Transform head;
+    [SerializeField] private Transform body;
+    [SerializeField] private Animator anim;
+
     void Update()
     {
         Move();
         Look();
+        InteractWithObject();
+    }
+
+    private void InteractWithObject()
+    {
+        if(Physics.Raycast(head.transform.position, transform.forward, out hit, playerControl.checkDistance))
+        {
+            objectInFront = hit.collider.tag == interactiveTag;
+
+            if (objectInFront && playerInput.GetButtonDown("Push"))
+            {
+                if (hit.collider.gameObject.TryGetComponent(out InteractiveObject interactive))
+                {
+                    Vector3 direction = transform.right;
+
+                    interactive.PushObject(direction);
+                }
+            }
+        }
     }
 
     private void Move()
@@ -107,13 +120,26 @@ public class Input : MonoBehaviour
 
     public int Layer
     {
-        get
-        {
-            return anim.gameObject.layer;
-        }
-        set
-        {
-            anim.gameObject.layer = value;
-        }
+        get { return anim.gameObject.layer; }
+        set { anim.gameObject.layer = value; }
     }
+    public Transform Body
+    {
+        get { return body; }
+    }
+
+
+
+    private enum RotationAxes { XY, X, Y };
+    private RotationAxes axis = RotationAxes.XY;
+    private Vector2 input = new Vector2();
+    private RaycastHit hit = new RaycastHit();
+    private float moveSpeed;
+    private float[] lookRotation = new float[2];
+    private const string interactiveTag = "Interactive";
+    private Player playerInput => ReInput.players.GetPlayer(playerControl.controllerID);
+
+    private bool isRunning => playerInput.GetButton("Run");
+    private float time => Time.deltaTime;
+    private CharacterController cc => GetComponent<CharacterController>();
 }

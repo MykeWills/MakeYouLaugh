@@ -9,8 +9,8 @@ public class ScreenMangement : MonoBehaviour
     [SerializeField] private Transform players;
     [SerializeField] private GameObject[] playerPrefabs;
     [SerializeField] private List<Camera> cameras = new List<Camera>();
-    
 
+    [SerializeField] private LayerMask[] playerMasks = new LayerMask[4];
     private void Start()
     {
         SetupNewPlayer();
@@ -32,13 +32,22 @@ public class ScreenMangement : MonoBehaviour
     {
         GameObject newPlayer = Instantiate(playerPrefabs[Random.Range(0, 2)], players);
         newPlayer.transform.position = startingPosition;
+
         if (newPlayer.TryGetComponent(out Input input))
         {
             input.playerControl.controllerID = totalPlayers;
-            if(input.playerControl.controllerID > 0)
+            input.playerControl.lookSensitivity = input.playerControl.lookSensitivity * 4;
+
+            string layerName = "Default";
+            switch (input.playerControl.controllerID)
             {
-                input.playerControl.lookSensitivity = input.playerControl.lookSensitivity * 4;
+                case 0: layerName = "Player1"; break;
+                case 1: layerName = "Player2"; break;
+                case 2: layerName = "Player3"; break;
+                case 3: layerName = "Player4"; break;
             }
+            input.tag = layerName;
+            input.Body.gameObject.layer = LayerMask.NameToLayer(layerName);
         }
         CheckNewPlayers(players, cleanList: true);
         SetupCamera(players.childCount);
@@ -66,13 +75,7 @@ public class ScreenMangement : MonoBehaviour
                 cameras[3].rect = new Rect(0.5f, 0f, 0.5f, 0.5f);
                 break;
         }
-
-        List<Transform> playersList = new List<Transform>(players.childCount);
-        foreach(Transform child in players)
-        {
-            playersList.Add(child);
-        }
-
+        cameras[playerNum - 1].cullingMask = playerMasks[playerNum - 1];
     }
 
     private void CheckNewPlayers(Transform parent, bool cleanList = true)
