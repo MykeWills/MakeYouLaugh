@@ -598,7 +598,7 @@ MonoBehaviour:
   interactiveObject: {fileID: 0}
   playerControl:
     controllerID: 0
-    gravity: 50
+    gravity: 100
     speed: 7.5
     checkDistance: 10
     lookSensitivity: {x: 60, y: 60}

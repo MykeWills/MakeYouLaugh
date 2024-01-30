@@ -4470,6 +4470,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   hingeObject: {fileID: 931016885464308254}
   otherDoorKnobObject: {fileID: 3944584400152578286}
-  rotationMax: 90
+  rotationMax: -90
   openSpeed: 70
   isOpen: 0
