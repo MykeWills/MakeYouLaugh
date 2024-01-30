@@ -12,8 +12,9 @@ GameObject:
   - component: {fileID: 4298985536000958700}
   - component: {fileID: 190398268258745716}
   - component: {fileID: 3078143621988315306}
-  - component: {fileID: 7335074946170431708}
   - component: {fileID: 1150102164016988266}
+  - component: {fileID: 347768882586692745}
+  - component: {fileID: 548227383861434893}
   m_Layer: 0
   m_Name: CoffeeTable
   m_TagString: Interactive
@@ -3900,20 +3901,6 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6475384425059806139}
   m_Mesh: {fileID: 0}
---- !u!64 &7335074946170431708
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6475384425059806139}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  serializedVersion: 4
-  m_Convex: 1
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!54 &1150102164016988266
 Rigidbody:
   m_ObjectHideFlags: 0
@@ -3930,3 +3917,30 @@ Rigidbody:
   m_Interpolate: 0
   m_Constraints: 0
   m_CollisionDetection: 2
+--- !u!65 &347768882586692745
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475384425059806139}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 5, y: 3.2500002, z: 10}
+  m_Center: {x: 0, y: -0.00000011920929, z: 0}
+--- !u!114 &548227383861434893
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6475384425059806139}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a6d0e7040ce3bbc4283c73d20e37f20e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  pushForce: 100
+  rotationForce: 1000

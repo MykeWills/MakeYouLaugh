@@ -5,6 +5,9 @@ using Rewired;
 
 public class ScreenMangement : MonoBehaviour
 {
+    private static ScreenMangement screenMangement;
+
+
     [SerializeField] private Vector3 startingPosition;
     [SerializeField] private Transform players;
     [SerializeField] private GameObject[] playerPrefabs;
@@ -17,26 +20,33 @@ public class ScreenMangement : MonoBehaviour
     }
     void Update()
     {
-        if (totalControllers > totalPlayers)
+        // TotalControllers +1 because Keyboard and mouse is always hooked up.
+        if (totalControllers + 1 > totalPlayers)
         {
             SetupNewPlayer();
         }
-        else if (totalControllers < totalPlayers)
+        else if (totalControllers < totalPlayers - 1)
         {
             RemovePlayers();
+        }
+
+        if(totalPlayers < currentPlayers)
+        {
             CheckNewPlayers(players, cleanList: true);
             SetupCamera(players.childCount);
         }
+            
     }
     private void SetupNewPlayer()
     {
         GameObject newPlayer = Instantiate(playerPrefabs[Random.Range(0, 2)], players);
         newPlayer.transform.position = startingPosition;
 
-        if (newPlayer.TryGetComponent(out Input input))
+
+        if (newPlayer.transform.GetChild(0).TryGetComponent(out Input input))
         {
-            input.playerControl.controllerID = totalPlayers;
-            input.playerControl.lookSensitivity = input.playerControl.lookSensitivity * 4;
+            input.playerControl.controllerID = totalPlayers - 1;
+            input.playerControl.lookSensitivity = input.playerControl.lookSensitivity * (totalControllers > 1 ? 4 : 1);
 
             string layerName = "Default";
             switch (input.playerControl.controllerID)
@@ -49,6 +59,7 @@ public class ScreenMangement : MonoBehaviour
             input.tag = layerName;
             input.Body.gameObject.layer = LayerMask.NameToLayer(layerName);
         }
+        currentPlayers = totalPlayers;
         CheckNewPlayers(players, cleanList: true);
         SetupCamera(players.childCount);
     }
@@ -102,8 +113,19 @@ public class ScreenMangement : MonoBehaviour
             Destroy(players.GetChild(p).gameObject);
         }
     }
-    private int totalPlayers => players.childCount - 1;
+    private int currentPlayers = 0;
+    public int totalPlayers => players.childCount;
     private int totalControllers => ReInput.controllers.joystickCount;
 
-
+    public static ScreenMangement Instance
+    {
+        get
+        {
+            if(screenMangement == null)
+            {
+                screenMangement = FindObjectOfType<ScreenMangement>();
+            }
+            return screenMangement;
+        }
+    }
 }
